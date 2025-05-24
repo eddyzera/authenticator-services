@@ -1,6 +1,6 @@
 using System;
 
-namespace AuthenticatorServices.Security.Infrastructure
+namespace AuthenticatorServices.Security.Infrastructure.Password
 {
     public interface IPasswordService
     {

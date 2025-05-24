@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
-using Xunit;
-using AuthenticatorServices.Domain.Services;
 using AuthenticatorServices.Domain.Contracts;
-using AuthenticatorServices.Domain.Repository.Interfaces;
 using AuthenticatorServices.Domain.Entities;
-using AuthenticatorServices.Security.Infrastructure;
+using AuthenticatorServices.Domain.Repository.Interfaces;
+using AuthenticatorServices.Domain.Services;
+using AuthenticatorServices.Security.Infrastructure.Password;
 using AuthenticatorServices.Tests.Services.Mocks;
+using Xunit;
 
 namespace AuthenticatorServices.Tests.Services
 {

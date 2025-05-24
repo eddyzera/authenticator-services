@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AuthenticatorServices.Domain.Contracts;
 using AuthenticatorServices.Domain.Entities;
 using AuthenticatorServices.Domain.Repository.Interfaces;
-using AuthenticatorServices.Security.Infrastructure;
+using AuthenticatorServices.Security.Infrastructure.Password;
 
 namespace AuthenticatorServices.Domain.Services
 {

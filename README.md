@@ -15,10 +15,11 @@ AuthenticatorServices.Domain/
 ├── Entities/          # Domain entities
 │   └── User.cs       # User entity
 ├── Services/         # Domain services
-│   └── CreateUserServices.cs  # User creation service
+│   ├── CreateUserServices.cs     # User creation service
+│   └── AuthenticateUserServices.cs # User authentication service
 ├── Contracts/        # Input/output interfaces
-│   ├── ICreateUserServiceRequest.cs
-│   └── ICreateUserServiceResponse.cs
+│   ├── IAuthenticateUserService.cs  # Authentication contracts
+│   └── ICreateUserService.cs        # User creation contracts
 └── Repository/       # Repository interfaces
     └── Interfaces/
         └── IUserRepository.cs
@@ -37,13 +38,18 @@ Layer responsible for security and encryption.
 ```
 AuthenticatorServices.Security/
 └── Infrastructure/
-    ├── IPasswordService.cs    # Password service interface
-    └── PasswordService.cs     # Password service implementation
+    ├── Password/           # Password-related services
+    │   ├── IPasswordService.cs    # Password service interface
+    │   └── PasswordService.cs     # Password service implementation
+    └── Token/             # JWT-related services
+        ├── IJwtService.cs         # JWT service interface
+        ├── JwtService.cs          # JWT service implementation
+        └── JwtSettings.cs         # JWT configuration
 ```
 
 #### Responsibilities:
-- Password encryption
-- Credential validation
+- Password encryption and validation
+- JWT token generation and validation
 - Security policy implementation
 
 ### 3. AuthenticatorServices.Tests
@@ -53,11 +59,12 @@ Automated testing layer.
 ```
 AuthenticatorServices.Tests/
 ├── Services/
-│   ├── CreateUserServicesTests.cs  # User service tests
+│   ├── CreateUserServicesTests.cs     # User creation tests
+│   ├── AuthenticateUserServicesTests.cs # Authentication tests
 │   └── Mocks/
-│       └── MockUserRepository.cs   # Repository mock
+│       └── MockUserRepository.cs      # Repository mock
 └── Security/
-    └── PasswordServiceTests.cs     # Password service tests
+    └── PasswordServiceTests.cs        # Password service tests
 ```
 
 #### Responsibilities:
@@ -70,32 +77,46 @@ AuthenticatorServices.Tests/
 - .NET 8
 - xUnit (for testing)
 - BCrypt.Net-Next (for password encryption)
+- JWT Bearer Authentication
 
 ## 🔐 Implemented Features
 
 ### 1. User Creation
 - Unique email validation
-- Password encryption
+- Password encryption using BCrypt
 - Unique ID generation
 - Creation date registration
 
-### 2. Security
+### 2. User Authentication
+- Email and password validation
+- JWT token generation with user claims
+- Token validation
+- User information retrieval
+
+### 3. Security
 - Password hashing using BCrypt
 - Password verification
+- JWT token security with claims
 - Credential validation
+- Organized security infrastructure
 
 ## 🧪 Tests
 
-The project includes automated tests to ensure code quality:
+The project includes comprehensive automated tests:
 
 ### Service Tests
 - User creation with valid data
 - Duplicate email validation
 - Password encryption verification
+- Authentication with valid credentials
+- Authentication with invalid credentials
+- Token generation and validation
 
 ### Security Tests
 - Password hashing
 - Password verification
+- JWT token generation
+- JWT token validation
 - Null input validation
 
 ## 📦 How to Run
@@ -110,25 +131,29 @@ The project includes automated tests to ensure code quality:
    dotnet test
    ```
 
-## 🔄 User Creation Flow
+## 🔄 Authentication Flow
 
-1. Receive user data request
-2. Check if email is already registered
-3. Encrypt password
-4. Create user in repository
-5. Return created user data
+1. Receive authentication request with email and password
+2. Validate user credentials
+3. Generate JWT token with user information and roles
+4. Return user data with authentication token
 
 ## 🔒 Security
 
 - Passwords stored with BCrypt hash
 - Unique email validation
+- JWT token-based authentication with claims
 - Exception handling
 - Input validation
+- Organized security infrastructure
 
 ## 📝 Next Steps
 
-- [ ] Implement JWT authentication
+- [ ] Implement refresh token mechanism
 - [ ] Add password strength validation
 - [ ] Implement password recovery
 - [ ] Add audit logs
-- [ ] Implement rate limiting 
+- [ ] Implement rate limiting
+- [ ] Add role-based authorization
+- [ ] Add API documentation
+- [ ] Implement logging system 
