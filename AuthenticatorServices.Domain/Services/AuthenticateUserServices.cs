@@ -35,10 +35,10 @@ namespace AuthenticatorServices.Domain.Services
             if (!_passwordService.VerifyPassword(request.Password, user.Password))
                 throw new Exception("Senha inválida");
 
-            var token = _jwtService.GenerateToken(
+            string token = _jwtService.GenerateToken(
                 userId: user.Id.ToString(),
                 email: user.Email,
-                roles: new[] { "User" } // Aqui você pode adicionar as roles do usuário
+                roles: new[] { "User" }
             );
 
             return new AuthenticateUserResponse

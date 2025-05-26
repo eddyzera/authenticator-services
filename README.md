@@ -1,159 +1,125 @@
 # Authenticator Services
 
-Authentication system developed in .NET 8, following Clean Architecture and Domain-Driven Design (DDD) principles.
+Sistema de autenticação desenvolvido em .NET 8, seguindo os princípios da Clean Architecture e Domain-Driven Design (DDD).
 
-## 🏗️ Project Structure
+## 🏗️ Estrutura do Projeto
 
-The project is organized in multiple layers, each with its specific responsibility:
+O projeto está organizado em múltiplas camadas, cada uma com sua responsabilidade específica:
 
 ### 1. AuthenticatorServices.Domain
-Central layer containing business rules and domain entities.
+Camada central contendo as regras de negócio e entidades do domínio.
 
-#### Structure:
+#### Estrutura:
 ```
 AuthenticatorServices.Domain/
-├── Entities/          # Domain entities
-│   └── User.cs       # User entity
-├── Services/         # Domain services
-│   ├── CreateUserServices.cs     # User creation service
-│   └── AuthenticateUserServices.cs # User authentication service
-├── Contracts/        # Input/output interfaces
-│   ├── IAuthenticateUserService.cs  # Authentication contracts
-│   └── ICreateUserService.cs        # User creation contracts
-└── Repository/       # Repository interfaces
-    └── Interfaces/
-        └── IUserRepository.cs
+├── Entities/          # Entidades do domínio
+│   └── User.cs       # Entidade de usuário
+├── Services/         # Serviços do domínio
+│   ├── CreateUserServices.cs     # Serviço de criação de usuário
+│   └── AuthenticateUserServices.cs # Serviço de autenticação
+├── Contracts/        # Interfaces de entrada/saída
+│   ├── IAuthenticateUserService.cs  # Contratos de autenticação
+│   └── ICreateUserService.cs        # Contratos de criação de usuário
+└── Repository/       # Implementação do repositório
+    └── JsonUserRepository.cs    # Repositório com persistência em JSON
 ```
 
-#### Responsibilities:
-- Domain entity definitions
-- Business rules implementation
-- Service input/output contracts
-- Repository interfaces
+#### Responsabilidades:
+- Definições de entidades do domínio
+- Implementação das regras de negócio
+- Contratos de entrada/saída dos serviços
+- Implementação do repositório com persistência em JSON
 
 ### 2. AuthenticatorServices.Security
-Layer responsible for security and encryption.
+Camada responsável pela segurança e criptografia.
 
-#### Structure:
+#### Estrutura:
 ```
 AuthenticatorServices.Security/
 └── Infrastructure/
-    ├── Password/           # Password-related services
-    │   ├── IPasswordService.cs    # Password service interface
-    │   └── PasswordService.cs     # Password service implementation
-    └── Token/             # JWT-related services
-        ├── IJwtService.cs         # JWT service interface
-        ├── JwtService.cs          # JWT service implementation
-        └── JwtSettings.cs         # JWT configuration
+    ├── Password/           # Serviços relacionados a senha
+    │   ├── IPasswordService.cs    # Interface do serviço de senha
+    │   └── PasswordService.cs     # Implementação do serviço de senha
+    └── Token/             # Serviços relacionados a JWT
+        ├── IJwtService.cs         # Interface do serviço JWT
+        ├── JwtService.cs          # Implementação do serviço JWT
+        └── JwtSettings.cs         # Configuração do JWT
 ```
 
-#### Responsibilities:
-- Password encryption and validation
-- JWT token generation and validation
-- Security policy implementation
+#### Responsabilidades:
+- Criptografia e validação de senhas
+- Geração e validação de tokens JWT
+- Implementação de políticas de segurança
 
 ### 3. AuthenticatorServices.Tests
-Automated testing layer.
+Camada de testes automatizados.
 
-#### Structure:
+#### Estrutura:
 ```
 AuthenticatorServices.Tests/
-├── Services/
-│   ├── CreateUserServicesTests.cs     # User creation tests
-│   ├── AuthenticateUserServicesTests.cs # Authentication tests
-│   └── Mocks/
-│       └── MockUserRepository.cs      # Repository mock
-└── Security/
-    └── PasswordServiceTests.cs        # Password service tests
+├── Services/           # Testes dos serviços
+│   ├── CreateUserServicesTests.cs
+│   └── AuthenticateUserServicesTests.cs
+└── Repository/        # Testes do repositório
+    └── JsonUserRepositoryTests.cs
 ```
 
-#### Responsibilities:
-- Unit tests
-- Integration tests
-- Test mocks and stubs
+### 4. AuthenticatorServices.Console
+Aplicação console para demonstração e testes.
 
-## 🛠️ Technologies Used
+#### Funcionalidades:
+- Criação de usuários
+- Autenticação de usuários
+- Persistência em arquivo JSON
 
-- .NET 8
-- xUnit (for testing)
-- BCrypt.Net-Next (for password encryption)
-- JWT Bearer Authentication
+## 🚀 Como Executar
 
-## 🔐 Implemented Features
-
-### 1. User Creation
-- Unique email validation
-- Password encryption using BCrypt
-- Unique ID generation
-- Creation date registration
-
-### 2. User Authentication
-- Email and password validation
-- JWT token generation with user claims
-- Token validation
-- User information retrieval
-
-### 3. Security
-- Password hashing using BCrypt
-- Password verification
-- JWT token security with claims
-- Credential validation
-- Organized security infrastructure
-
-## 🧪 Tests
-
-The project includes comprehensive automated tests:
-
-### Service Tests
-- User creation with valid data
-- Duplicate email validation
-- Password encryption verification
-- Authentication with valid credentials
-- Authentication with invalid credentials
-- Token generation and validation
-
-### Security Tests
-- Password hashing
-- Password verification
-- JWT token generation
-- JWT token validation
-- Null input validation
-
-## 📦 How to Run
-
-1. Clone the repository
-2. Restore NuGet packages:
+1. Clone o repositório
+2. Restaure as dependências:
    ```bash
    dotnet restore
    ```
-3. Run the tests:
+3. Execute os testes:
    ```bash
    dotnet test
    ```
+4. Execute a aplicação console:
+   ```bash
+   dotnet run --project AuthenticatorServices.Console
+   ```
 
-## 🔄 Authentication Flow
+## 📝 Fluxo de Autenticação
 
-1. Receive authentication request with email and password
-2. Validate user credentials
-3. Generate JWT token with user information and roles
-4. Return user data with authentication token
+1. **Criação de Usuário**:
+   - O usuário fornece nome, email e senha
+   - A senha é criptografada usando BCrypt
+   - Os dados são salvos em `users.json`
 
-## 🔒 Security
+2. **Autenticação**:
+   - O usuário fornece email e senha
+   - O sistema verifica as credenciais
+   - Se válidas, gera um token JWT
+   - O token contém claims de ID, email e roles
 
-- Passwords stored with BCrypt hash
-- Unique email validation
-- JWT token-based authentication with claims
-- Exception handling
-- Input validation
-- Organized security infrastructure
+## 🔒 Segurança
 
-## 📝 Next Steps
+- Senhas criptografadas com BCrypt
+- Tokens JWT com claims personalizadas
+- Validação de email
+- Senhas com requisitos mínimos de segurança
 
-- [ ] Implement refresh token mechanism
-- [ ] Add password strength validation
-- [ ] Implement password recovery
-- [ ] Add audit logs
-- [ ] Implement rate limiting
-- [ ] Add role-based authorization
-- [ ] Add API documentation
-- [ ] Implement logging system 
+## 📦 Tecnologias Utilizadas
+
+- .NET 8
+- xUnit para testes
+- BCrypt.Net-Next para criptografia
+- JWT Bearer Authentication
+- System.Text.Json para persistência
+
+## 🔄 Próximos Passos
+
+- [ ] Implementar refresh token
+- [ ] Adicionar autorização baseada em roles
+- [ ] Implementar validação de força de senha
+- [ ] Adicionar logging
+- [ ] Implementar rate limiting 
