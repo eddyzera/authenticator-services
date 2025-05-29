@@ -7,7 +7,7 @@ namespace AuthenticatorServices.Tests.Services.Mocks
 {
     public class MockUserRepository : IUserRepository
     {
-        private User _existingUser;
+        private User? _existingUser;
 
         public void SetExistingUser(User user)
         {

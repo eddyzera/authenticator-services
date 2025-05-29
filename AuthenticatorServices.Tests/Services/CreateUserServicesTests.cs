@@ -50,10 +50,10 @@ namespace AuthenticatorServices.Tests.Services
         public async Task Execute_ShouldThrowException_WhenRequestIsNull()
         {
             // Arrange
-            ICreateUserServiceRequest request = null;
+            ICreateUserServiceRequest? request = null;
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(() => _createUserServices.Execute(request));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => _createUserServices.Execute(request!));
         }
 
         [Fact]
@@ -92,15 +92,15 @@ namespace AuthenticatorServices.Tests.Services
             // Assert
             Assert.NotNull(response.Password);
             Assert.NotEqual(request.Password, response.Password); // Senha não deve ser igual à original
-            Assert.True(response.Password.StartsWith("$2")); // BCrypt hash sempre começa com $2
+            Assert.StartsWith("$2", response.Password); // BCrypt hash sempre começa com $2
             Assert.True(_passwordService.VerifyPassword(request.Password, response.Password)); // Deve ser possível verificar a senha
         }
 
         private class CreateUserRequest : ICreateUserServiceRequest
         {
-            public string Name { get; set; }
-            public string Email { get; set; }
-            public string Password { get; set; }
+            public string Name { get; set; } = string.Empty;
+            public string Email { get; set; } = string.Empty;
+            public string Password { get; set; } = string.Empty;
         }
     }
 } 
