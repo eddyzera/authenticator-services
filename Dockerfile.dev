@@ -1,0 +1,9 @@
+FROM postgres:16-alpine
+
+# Variáveis de ambiente padrão para desenvolvimento
+ENV POSTGRES_USER=devuser
+ENV POSTGRES_PASSWORD=devpassword
+ENV POSTGRES_DB=devdb
+
+# Expondo a porta padrão do Postgres
+EXPOSE 5432 
