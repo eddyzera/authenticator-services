@@ -16,7 +16,11 @@ namespace AuthenticatorServices.Tests.Services.Mocks
 
         public Task<User> CreateUser(User user)
         {
-            return Task.FromResult(user);
+            // Simula o comportamento do banco gerando um ID
+            var userWithId = User.Create(user.Name, user.Email, user.Password);
+            var idField = typeof(User).GetField("<Id>k__BackingField", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            idField?.SetValue(userWithId, Guid.NewGuid());
+            return Task.FromResult(userWithId);
         }
 
         public Task<User?> FindByEmail(string email)
