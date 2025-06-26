@@ -38,7 +38,6 @@ namespace AuthenticatorServices.Console
 
                 var createdUser = await createUserService.Execute(createRequest);
                 System.Console.WriteLine($"Usuário criado com sucesso!");
-                System.Console.WriteLine($"Data de Criação: {createdUser.CreatedAt}");
                 System.Console.WriteLine();
 
                 // Autenticar usuário

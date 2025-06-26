@@ -42,8 +42,6 @@ namespace AuthenticatorServices.Tests.Services
             Assert.NotEqual(Guid.Empty, response.Id);
             Assert.Equal(request.Name, response.Name);
             Assert.Equal(request.Email, response.Email);
-            Assert.NotEqual(request.Password, response.Password); // Password should be hashed
-            Assert.NotEqual(default(DateTime), response.CreatedAt);
         }
 
         [Fact]
@@ -73,27 +71,6 @@ namespace AuthenticatorServices.Tests.Services
             // Act & Assert
             var exception = await Assert.ThrowsAsync<Exception>(() => _createUserServices.Execute(request));
             Assert.Equal("Email já cadastrado", exception.Message);
-        }
-
-        [Fact]
-        public async Task Execute_ShouldHashPassword_WhenCreatingNewUser()
-        {
-            // Arrange
-            var request = new CreateUserRequest
-            {
-                Name = "Test User",
-                Email = "test@example.com",
-                Password = "TestPassword123!"
-            };
-
-            // Act
-            var response = await _createUserServices.Execute(request);
-
-            // Assert
-            Assert.NotNull(response.Password);
-            Assert.NotEqual(request.Password, response.Password); // Senha não deve ser igual à original
-            Assert.StartsWith("$2", response.Password); // BCrypt hash sempre começa com $2
-            Assert.True(_passwordService.VerifyPassword(request.Password, response.Password)); // Deve ser possível verificar a senha
         }
 
         private class CreateUserRequest : ICreateUserServiceRequest

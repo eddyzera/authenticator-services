@@ -13,7 +13,6 @@ namespace AuthenticatorServices.Domain.Entities
 
         private User(string name, string email, string password)
         {
-            Id = Guid.NewGuid();
             Name = name;
             Email = email;
             Password = password;
