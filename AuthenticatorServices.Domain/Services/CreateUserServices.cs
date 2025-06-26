@@ -35,8 +35,6 @@ namespace AuthenticatorServices.Domain.Services
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
-                Password = hashedPassword,
-                CreatedAt = user.CreatedAt
             };
         }
     }
@@ -46,7 +44,6 @@ namespace AuthenticatorServices.Domain.Services
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }
