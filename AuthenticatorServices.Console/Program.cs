@@ -15,7 +15,7 @@ namespace AuthenticatorServices.Console
             try
             {
                 // Configuração dos serviços
-                var userRepository = new JsonUserRepository();
+                var userRepository = new EFUserRepository();
                 var passwordService = new PasswordService();
                 var jwtService = new JwtService(new JwtSettings
                 {

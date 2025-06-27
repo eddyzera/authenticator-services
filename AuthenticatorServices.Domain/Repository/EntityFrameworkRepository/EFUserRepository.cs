@@ -1,27 +1,29 @@
 using AuthenticatorServices.Domain.Entities;
 using AuthenticatorServices.Domain.Repository.Interfaces;
 using AuthenticatorServices.Domain.Core.DataBaseConfig;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace AuthenticatorServices.Domain.Repository
 {
-    class EFUserRepository : IUserRepository
+    public class EFUserRepository : IUserRepository
     {
 
         public async Task<User> CreateUser(User user)
         {
-            var context = new DataBaseConfig();
+            DataBaseConfig context = new DataBaseConfig();
 
             await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
 
             return user;
         }
         
         public async Task<User?> FindByEmail(string email)
         {
-            var context = new DataBaseConfig();
+            DataBaseConfig context = new DataBaseConfig();
 
-            var user = await context.Users.FindAsync(email);
+            User? user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
 
             return user;
         }
