@@ -12,5 +12,34 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - dev-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dotnet.dev
+    container_name: authenticator-app-dev
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app/src
+    working_dir: /app/src
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - dev-network
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    stdin_open: true
+    tty: true
+
+networks:
+  dev-network:
+    driver: bridge
+
 volumes:
   pgdata: 

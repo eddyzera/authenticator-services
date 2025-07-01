@@ -1,0 +1,12 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+
+WORKDIR /app
+
+# Copiar código
+COPY . .
+
+# Pular restore por enquanto - usar apenas para desenvolvimento
+WORKDIR /app
+
+# Manter container rodando
+CMD ["tail", "-f", "/dev/null"]
