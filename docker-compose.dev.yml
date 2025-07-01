@@ -2,7 +2,7 @@ services:
   postgres:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.db.dev
     container_name: postgres-dev
     environment:
       POSTGRES_USER: devuser
